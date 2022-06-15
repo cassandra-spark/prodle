@@ -39,6 +39,18 @@ app.route('/user').post(async (req, res) => {
 
 
 //Update Profile information
+app.route('/user/:id').put(async (req, res) => {
+    const id = req.params.id
+    const doc = req.body
+    const result = await db.collection(userCollection).updateOne({ _id: id }, { $set: doc })
+  
+    if (result.matchedCount == 0) {
+      res.status(404).json({})
+      return
+    }
+  
+    res.json({})
+  })
 
 
 //Save project
@@ -64,10 +76,29 @@ app.route('/projectlist').post(async (req, res) => {
     res.status(201).json({ _id: result.insertedId })
   })
 
-//Update project
 
+//Update project
+app.route('/projectlist/:id').put(async (req, res) => {
+    const id = req.params.id
+    const doc = req.body
+    const result = await db.collection(projectCollection).updateOne({ _id: id }, { $set: doc })
+  
+    if (result.matchedCount == 0) {
+      res.status(404).json({})
+      return
+    }
+  
+    res.json({})
+  })
 
 //Delete project
+app.route('/projectlist/:id').delete(async (req, res) => {
+    const id = req.params.id
+    
+    await db.collection(projectCollection).deleteOne({ _id: id })
+
+    res.json({})
+  })
 
 
 //Get all projects
@@ -97,6 +128,9 @@ app.route('/projectlist/:id').get(async (req, res) => {
 //my memberships
 
 
+//Project Membership
+
+
 //apply for project
 
 
@@ -117,6 +151,15 @@ app.route('/projectlist/:id').get(async (req, res) => {
 
 //Delete comment
 
+
+
+// Reverse proxy or static file server for frontend
+const env = process.env.NODE_ENV || 'development';
+if (env == 'production') {
+  app.use('/', express.static('public'));
+} else {
+  app.use('/', proxy('localhost:4200'));
+}
 
 // Start server and listen for requests
 app.listen(port, function() {
