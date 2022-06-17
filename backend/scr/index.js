@@ -3,6 +3,8 @@ const proxy = require('express-http-proxy');
 const cors = require('cors')
 const MongoClient = require('mongodb').MongoClient
 const ObjectId = require('mongodb').ObjectId
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 
 // Create Express app
@@ -27,14 +29,29 @@ const projectCollection= 'project'
 // Create database object
 let db
 
-//Login
+//TO-DO:Login also not idea what to do
+app.route('/login').post(async(req, res) =>{
 
 
-//Sign-up
+
+  
+ 
+
+})
+
+
+//TO_DO: Sign up lol idk whats up
 app.route('/user').post(async (req, res) => {
-    const doc = req.body
-    const result = await db.collection(userCollection).insertOne(doc)
-    res.status(201).json({ _id: result.insertedId })
+  try{
+    const hashedPassword = await bcrypt.hash(req.body.password, 10)
+    console.log(salt)
+    console.log(hashedPassword)
+    const user = {...req.body, password: hashedPassword}
+    const result = await db.collection(userCollection).insertOne(user)
+    res.status(200).send()
+  }catch{
+    res.status(500)
+  }
   })
 
 
@@ -42,7 +59,7 @@ app.route('/user').post(async (req, res) => {
 app.route('/user/:id').put(async (req, res) => {
     const id = req.params.id
     const doc = req.body
-    const result = await db.collection(userCollection).updateOne({ _id: id }, { $set: doc })
+    const result = await db.collection(userCollection).updateOne({ _id: ObjectId(id) }, { $set: doc })
   
     if (result.matchedCount == 0) {
       res.status(404).json({})
@@ -53,13 +70,13 @@ app.route('/user/:id').put(async (req, res) => {
   })
 
 
-//Save project
+//Save project (Should we just do this one in the front end then update the profile information?)
 
 
 //Get user
 app.route('/user/:id').get(async (req, res) => {
     const id = req.params.id
-    const result = await db.collection(userCollection).findOne(id)
+    const result = await db.collection(userCollection).findOne(ObjectId(id))
   
     if (!result) {
       res.status(404).json({})
@@ -81,7 +98,7 @@ app.route('/projectlist').post(async (req, res) => {
 app.route('/projectlist/:id').put(async (req, res) => {
     const id = req.params.id
     const doc = req.body
-    const result = await db.collection(projectCollection).updateOne({ _id: id }, { $set: doc })
+    const result = await db.collection(projectCollection).updateOne({ _id: ObjectId(id) }, { $set: doc })
   
     if (result.matchedCount == 0) {
       res.status(404).json({})
@@ -95,7 +112,7 @@ app.route('/projectlist/:id').put(async (req, res) => {
 app.route('/projectlist/:id').delete(async (req, res) => {
     const id = req.params.id
     
-    await db.collection(projectCollection).deleteOne({ _id: id })
+    await db.collection(projectCollection).deleteOne({ _id: ObjectId(id) })
 
     res.json({})
   })
@@ -112,7 +129,7 @@ app.route('/projectlist').get(async (req, res) => {
 //Get Project
 app.route('/projectlist/:id').get(async (req, res) => {
     const id = req.params.id
-    const result = await db.collection(projectCollection).findOne(id)
+    const result = await db.collection(projectCollection).findOne(ObjectId(id))
   
     if (!result) {
       res.status(404).json({})
@@ -126,31 +143,80 @@ app.route('/projectlist/:id').get(async (req, res) => {
 
 
 //my memberships
-
+app.route('/user_membership/:user_id').get(async (req, res) => {
+  const user_id = req.params.user_id
+  let membership = []
+ membership = await db.collection(membershipCollection).find({"user": ObjectId(user_id), "status": "accepted"}).toArray()
+  res.json(membership)
+})
 
 //Project Membership
-
+app.route('/user_project/:project_id').get(async (req, res) => {
+  const project_id = req.params.project_id
+  let membership = []
+ membership = await db.collection(membershipCollection).find({"user": ObjectId(project_id)}).toArray()
+  res.json(membership)
+})
 
 //apply for project
+app.route('/membership').post(async (req, res) => {
+  const doc = req.body
+  const result = await db.collection(membershipCollection).insertOne(doc)
+  res.status(201).json({ _id: result.insertedId })
+})
 
+//accept or deny application (we just change the status in the frontend)
+app.route('/membership/:id').put(async (req, res) => {
+  const id = req.params.id
+  const doc = req.body
+  const result = await db.collection(membershipCollection).updateOne({ _id: ObjectId(id) }, { $set: doc })
 
-//accept application
+  if (result.matchedCount == 0) {
+    res.status(404).json({})
+    return
+  }
 
+  res.json({})
+})
 
-//deny application
 
 
 //create new comment
-
-
+app.route('/discussions').post(async (req, res) => {
+  const doc = req.body
+  const result = await db.collection(discussionCollection).insertOne(doc)
+  res.status(201).json({ _id: result.insertedId })
+})
 //Read all comments
-
+app.route('/discussions/:project_id').get(async (req, res) => {
+  const project_id = req.params.project_id
+  let comment = []
+  comment = await db.collection(discussionCollection).find({"project": ObjectId(project_id)}).toArray()
+  res.json(comment)
+})
 
 //Update comment
+app.route('/discussions/:id').put(async (req, res) => {
+  const id = req.params.id
+  const doc = req.body
+  const result = await db.collection(discussionCollection).updateOne({ _id: ObjectId(id) }, { $set: doc })
 
+  if (result.matchedCount == 0) {
+    res.status(404).json({})
+    return
+  }
+
+  res.json({})
+})
 
 //Delete comment
+app.route('/projectlist/:id').delete(async (req, res) => {
+  const id = req.params.id
+  
+  await db.collection(discussionCollection).deleteOne({ _id: ObjectId(id) })
 
+  res.json({})
+})
 
 
 // Reverse proxy or static file server for frontend
