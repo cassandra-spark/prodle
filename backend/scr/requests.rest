@@ -1,0 +1,16 @@
+
+POST http://localhost:3600/user
+
+Content-Type: application/json
+{
+  "username": "Dave",
+  "password": "admin",
+  "fullname": "Dave Wellington",
+  "type": "Student",
+  "birthdate": "7/12/2004",
+  "degree": "Bachelor's",
+  "major": "Computer Science",
+  "description": "Hi I'm Davey, a first year ComSci student",
+  "email_address": "Randy_wellington@stud.com",
+  "saved": "[]" 
+}
