@@ -37,7 +37,7 @@ let db
 //TO-DO:Login also not idea what to do
 app.route('/login').post(async(req, res) =>{
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const user = await db.collection(userCollection).findOne({ username: req.body.username })
     console.log(user);
     if (user) {
       const cmp = await bcrypt.compare(req.body.password, user.password);
@@ -62,21 +62,9 @@ app.route('/user').post(async (req, res) => {
   try{
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
     console.log(hashedPassword)
-    const insertResult = await user.create({
-      username: req.body.username,
-      password: hashedPassword,
-      fullname: req.body.fullname,
-      type: req.body.type,
-      birthdate: req.body.birthdate,
-      degree: req.body.degree,
-      major: req.body.major,
-      description: req.body.description,
-      email_address: req.body.email_address,
-      saved: "[]" 
-    })
-    //const user = {...req.body, password: hashedPassword}
-    //const result = await db.collection(userCollection).insertOne(user)
-    res.status(200).send(insertResult)
+    const user = {...req.body, password: hashedPassword}
+    const result = await db.collection(userCollection).insertOne(user)
+    res.status(200).send(result)
   }catch (error) {
     res.status(500)
   }
