@@ -1,32 +1,34 @@
 import { useState } from 'react'
 
-import { useSignIn, useSignOut, useUsername, useIsSignedIn } from '../api/user/hooks'
+import { useSignUp, useSignOut, useFullName, useIsSignedIn } from '../api/user/hooks'
 import ApiErrorMessage from '../components/ApiErrorMessage'
 
 export default function Login() {
-  const { signIn, result: signInResult } = useSignIn()
+  const { signUp, signUpResult } = useSignUp()
   const signOut = useSignOut()
-  const signedInUsername = useUsername()
+  const signedInFullName = useFullName()
   const isSignedIn = useIsSignedIn()
   
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [fullName, setFullName] = useState('')
 
   return (
     <div>
       <h1 className="text-3xl font-bold underline">
-        Log in
+        Sign up
       </h1>
 
 
       { isSignedIn ? <>
-        <p>Signed in as {signedInUsername}</p>
+        <p>Signed in as {signedInFullName}</p>
         <button onClick={() => signOut()}>Sign out</button>
       </> : <>
         <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button onClick={() => signIn(username, password)}>Sign in</button>
-        <ApiErrorMessage result={signInResult} defaultMessage="There was an error signing in" />
+        <input type="text" placeholder="Full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+        <button onClick={() => signUp({username, password, fullName})}>Sign up</button>
+        <ApiErrorMessage result={signUpResult} defaultMessage="There was an error signing up" />
       </> }
     </div>
   )
