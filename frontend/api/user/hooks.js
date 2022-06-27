@@ -28,6 +28,12 @@ export function useSignOut() {
   }
 }
 
+export function useUser() {
+  const { user } = useContext(UserContext)
+
+  return user
+}
+
 export function useUsername() {
   const { user } = useContext(UserContext)
 
