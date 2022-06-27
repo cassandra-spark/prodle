@@ -34,25 +34,23 @@ const projectCollection= 'project'
 // Create database object
 let db
 
-//TO-DO:Login also not idea what to do
 app.route('/login').post(async(req, res) =>{
   try {
     const user = await db.collection(userCollection).findOne({ username: req.body.username })
-    console.log(user);
     if (user) {
       const cmp = await bcrypt.compare(req.body.password, user.password);
       if (cmp) {
         //   ..... further code to maintain authentication like jwt or sessions
-        res.send("Auth Successful");
+        res.send({ username: user.username, fullName: user.fullName, email: user.email, token: "asdf" });
       } else {
-        res.send("Wrong username or password.");
+        res.status(401).send({ message: "Wrong username or password." });
       }
     } else {
-      res.send("Wrong username or password.");
+      res.status(401).send({ message: "Wrong username or password." });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send("Internal Server error Occured");
+    res.status(500).send({ message: "Internal Server error Occured" });
   }
 })
 
