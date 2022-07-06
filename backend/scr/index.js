@@ -55,7 +55,7 @@ app.route('/login').post(async(req, res) =>{
 })
 
 
-//TO_DO: Sign up lol idk whats up
+
 app.route('/user').post(async (req, res) => {
   try{
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
@@ -154,7 +154,17 @@ app.route('/projectlist/:id').get(async (req, res) => {
   })
 
 //Search Project
-
+app.route("/searchProjects").get(async (req, res) =>{
+    const query = req.query.query
+    const tags = req.query.tags
+    //projects = await db.collection(projectCollection).find( { $and: [{ $or: [ {"title":{$regex: query, $options:"i"}}, {"description":{$regex: query, $options:"i"}} ] }, { tags: { $all: tags } }]}
+    projects = await db.collection(projectCollection).find( { $or: [ {"title":{$regex: query, $options:"i"}}, {"description":{$regex: query, $options:"i"}} ]}
+    ).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+    });
+    res.json(projects)
+})
 
 //my memberships
 app.route('/user_membership/:user_id').get(async (req, res) => {
@@ -231,6 +241,8 @@ app.route('/projectlist/:id').delete(async (req, res) => {
 
   res.json({})
 })
+
+//create reply
 
 
 // Reverse proxy or static file server for frontend

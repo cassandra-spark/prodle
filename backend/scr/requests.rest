@@ -1,9 +1,2 @@
+GET http://localhost:3600/searchProjects?query=sensors&tags=[]
 
-
-POST http://localhost:3600/user
-
-Content-Type: application/json
-{
-  "username": "A_Smith",
-  "password" :"admin"
-}
