@@ -75,7 +75,9 @@ export function getMembershipsForUserAndProject(userId, projectId) {
 }
 
 export function getCommentsForProject(projectId) {
-	return db.collection(discussionCollection).find({"project": toObjectId(projectId)}).toArray()
+	projectId = toObjectId(projectId)
+	if (!projectId) return []
+	return db.collection(discussionCollection).find({"project": projectId}).toArray()
 }
 
 export function addUserToProject(projectId, userId) {
@@ -102,6 +104,9 @@ export function updateMembershipStatus(membershipId, status) {
 
 export function createCommentForProject(projectId, comment) {
 	comment.project = toObjectId(projectId)
+	if (comment.owner) {
+		comment.owner = toObjectId(comment.owner)
+	}
 	if (comment.parent) {
 		comment.parent = toObjectId(comment.parent)
 	}

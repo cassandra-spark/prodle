@@ -187,7 +187,7 @@ export function startWebServer() {
   ///////// COMMENTS ROUTES
 
   //create new comment
-  app.route('/discussions/:id').post(async (req, res) => {
+  app.route('/discussions/projects/:id').post(async (req, res) => {
     const id = req.params.id
     const doc = req.body
     const result = await createCommentForProject(id, doc)
@@ -195,14 +195,14 @@ export function startWebServer() {
   })
 
   //Read all comments
-  app.route('/discussions/:id').get(async (req, res) => {
+  app.route('/discussions/projects/:id').get(async (req, res) => {
     const id = req.params.id
     const comment = await getCommentsForProject(id)
     res.json(comment)
   })
 
   //Delete comment
-  app.route('/projects/:id').delete(async (req, res) => {
+  app.route('/discussions/:id').delete(async (req, res) => {
     const id = req.params.id
     await deleteComment(id)
     res.json({})
