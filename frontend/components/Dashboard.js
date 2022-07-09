@@ -3,13 +3,12 @@ import Link from 'next/link'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
-import { useSignOut, useUser } from '../api/user/hooks'
+import { useSignOut, useCurrentUser } from '../api/user/hooks'
 
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Projects', href: '/projects' },
   { name: 'Profile', href: '/profile' },
-  { name: 'Forum', href: '/forum' },
 ]
 
 function classNames(...classes) {
@@ -18,7 +17,7 @@ function classNames(...classes) {
 
 export default function Dashboard({ children, current }) {
   const signOut = useSignOut()
-  const user = useUser()
+  const user = useCurrentUser()
 
   return (
     <>
@@ -69,7 +68,7 @@ export default function Dashboard({ children, current }) {
                       <div>
                         <Menu.Button className="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src="user.png" alt="" />
+                          <img className="h-8 w-8 rounded-full" src="/user.png" alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
@@ -136,7 +135,7 @@ export default function Dashboard({ children, current }) {
                 <div className="pt-4 pb-3 border-t border-gray-200">
                   <div className="flex items-center px-4">
                     <div className="flex-shrink-0">
-                      <img className="h-10 w-10 rounded-full" src="user.png" alt="" />
+                      <img className="h-10 w-10 rounded-full" src="/user.png" alt="" />
                     </div>
                     {user ? 
                       <div className="ml-3">

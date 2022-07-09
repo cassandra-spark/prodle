@@ -1,12 +1,13 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
-import { useSignUp, useSignOut, useFullName, useIsSignedIn } from '../api/user/hooks'
+import { useSignUp, useIsSignedIn } from '../api/user/hooks'
 import ApiErrorMessage from '../components/ApiErrorMessage'
 
 export default function Login() {
+  const router = useRouter()
+
   const { signUp, signUpResult } = useSignUp()
-  const signOut = useSignOut()
-  const signedInFullName = useFullName()
   const isSignedIn = useIsSignedIn()
   
   const [username, setUsername] = useState('')
@@ -25,12 +26,8 @@ export default function Login() {
   }
 
   if (isSignedIn) {
-    return (
-      <>
-        <p>Signed in as {signedInFullName}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
+    router.replace(`/`)
+    return (<></>)
   }
 
   return (
@@ -136,8 +133,10 @@ export default function Login() {
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
                   value={userType} onChange={(e) => setUserType(e.target.value)}>
 
-                  <option value="student">Student</option>
-                  <option value="professor">Professor</option>
+                  <option value="Student">Student</option>
+                  <option value="Student Assistant">Student Assistant</option>
+                  <option value="Researcher">Researcher</option>
+                  <option value="Professor">Professor</option>
                 </select>
               </div>
 
@@ -152,9 +151,11 @@ export default function Login() {
                   className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md"
                   value={degree} onChange={(e) => setDegree(e.target.value)}>
 
-                  <option value="bachelor">Bachelor's</option>
-                  <option value="master">Master's</option>
-                  <option value="other">Other</option>
+                  <option value="">None</option>
+                  <option value="Bachelor">Bachelor</option>
+                  <option value="Master">Master</option>
+                  <option value="PhD">PhD</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 

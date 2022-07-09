@@ -21,14 +21,14 @@ export async function makeJsonResult(response) {
   }
 }
 
-export async function fetchJson(path, method, data, token = null) {
+export async function fetchJson(path, method, data = null, token = null) {
   const response = await fetch(makeApiUrl(path), {
     method: method,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': data ? 'application/json' : null,
       'Authorization': token ? `Bearer ${token}` : null,
     },
-    body: JSON.stringify(data),
+    body: data ? JSON.stringify(data) : null,
   })
 
   return await makeJsonResult(response)

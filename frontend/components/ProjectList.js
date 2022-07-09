@@ -1,44 +1,13 @@
-import { TagIcon, UserIcon, StarIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import { UserIcon, StarIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 
-const projects = [
-  {
-    id: 1,
-    title: 'Some Web Project 1',
-    tags: ['JavaScript', 'Python', 'HTML', 'CSS'],
-    memberCount: 25,
-    starCount: 120,
-  },
-  {
-    id: 2,
-    title: 'Some Web Project 2',
-    tags: ['JavaScript', 'Python', 'HTML', 'CSS'],
-    memberCount: 25,
-    starCount: 120,
-  },
-  {
-    id: 3,
-    title: 'Some Web Project 3',
-    tags: ['JavaScript', 'Python', 'HTML', 'CSS'],
-    memberCount: 25,
-    starCount: 120,
-  },
-  {
-    id: 4,
-    title: 'Some Web Project 4',
-    tags: ['JavaScript', 'Python', 'HTML', 'CSS'],
-    memberCount: 25,
-    starCount: 120,
-  },
-]
-
-export default function Example() {
+export default function Projects({ projects }) {
   return (
     <div className="bg-white shadow overflow-hidden sm:rounded-md">
       <ul role="list" className="divide-y divide-gray-200">
-        {projects.map((project) => (
-          <li key={project.id}>
-            <Link href="/project">
+        {projects ? projects.map((project) => (
+          <li key={project._id}>
+            <Link href={`/projects/${project._id}`}>
               <a className="block hover:bg-gray-50">
                 <div className="px-4 py-4 flex items-center sm:px-6">
                   <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
@@ -48,7 +17,7 @@ export default function Example() {
                       </div>
                       <div className="mt-2 flex">
                         <div className="flex items-center text-sm text-gray-500">
-                          {project.tags.join(', ')}
+                          {project.skills.slice(1, -1)}
                         </div>
                       </div>
                     </div>
@@ -56,11 +25,8 @@ export default function Example() {
                       <div className="flex overflow-hidden -space-x-1 gap-4">
                         <p className="flex items-center text-xl text-gray-500">
                           <UserIcon className="flex-shrink-0 mr-1.5 h-8 w-8 text-gray-400" aria-hidden="true" />
-                          {project.memberCount}
-                        </p>
-                        <p className="mt-2 flex items-center text-xl text-gray-500 sm:mt-0 sm:ml-6">
-                          <StarIcon className="flex-shrink-0 mr-1.5 h-8 w-8 text-gray-400" aria-hidden="true" />
-                          {project.starCount}
+                          {/*project.members.length*/}
+                          22
                         </p>
                       </div>
                     </div>
@@ -72,7 +38,7 @@ export default function Example() {
               </a>
             </Link>
           </li>
-        ))}
+        )) : <p>Loading...</p>}
       </ul>
     </div>
   )

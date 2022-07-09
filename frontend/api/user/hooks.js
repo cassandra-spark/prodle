@@ -1,7 +1,7 @@
-import { useState, useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import UserContext from './context'
-import { SignInRequest, SignUpRequest, UpdateProfileRequest } from './requests'
+import { SignInRequest, SignUpRequest, UpdateProfileRequest, GetUserRequest, GetUserProjectsRequest } from './requests'
 
 export function useSignIn() {
   const { setUser } = useContext(UserContext)
@@ -28,22 +28,10 @@ export function useSignOut() {
   }
 }
 
-export function useUser() {
+export function useCurrentUser() {
   const { user } = useContext(UserContext)
 
   return user
-}
-
-export function useUsername() {
-  const { user } = useContext(UserContext)
-
-  return user?.username
-}
-
-export function useFullName() {
-  const { user } = useContext(UserContext)
-
-  return user?.fullName
 }
 
 export function useIsSignedIn() {
@@ -78,4 +66,40 @@ export function useUpdateProfile() {
   }
 
   return { updateProfile, result }
+}
+
+export function useUser(userId) {
+  const [result, setResult] = useState(null)
+
+  const refetch = async () => {
+    if (userId) {
+      setResult(await GetUserRequest({ userId }))
+    } else {
+      setResult(null)
+    }
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [userId])
+
+  return { result, user: result?.data, refetch }
+}
+
+export function useUserProjects(username) {
+  const [result, setResult] = useState(null)
+
+  const refetch = async () => {
+    if (username) {
+      setResult(await GetUserProjectsRequest({ username }))
+    } else {
+      setResult(null)
+    }
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [username])
+
+  return { result, projects: result?.data, refetch }
 }

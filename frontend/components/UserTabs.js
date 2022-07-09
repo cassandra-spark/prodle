@@ -1,20 +1,19 @@
 import Link from 'next/link'
 
-const tabs = (projectId) => ([
-  { name: 'Overview', href: `/projects/${projectId}` },
-  { name: 'Discussion', href: `/projects/${projectId}/discussion` },
-  { name: 'Members', href: `/projects/${projectId}/members` },
+const tabs = (username) => ([
+  { name: 'Overview', href: `/users/${username}` },
+  { name: 'Projects', href: `/users/${username}/projects` },
 ])
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function ProjectTabs({ current, projectId }) {
+export default function UserTabs({ current, username }) {
   return (
     <div>
       <nav className="flex space-x-4 justify-center" aria-label="Tabs">
-        {tabs(projectId).map((tab) => (
+        {tabs(username).map((tab) => (
           <Link
             key={tab.name}
             href={tab.href}

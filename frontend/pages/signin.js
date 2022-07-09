@@ -1,13 +1,13 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
-import { useSignIn, useSignOut, useFullName, useIsSignedIn } from '../api/user/hooks'
+import { useSignIn, useIsSignedIn } from '../api/user/hooks'
 import ApiErrorMessage from '../components/ApiErrorMessage'
 
 export default function Signin() {
+  const router = useRouter()
 
   const { signIn, result: signInResult } = useSignIn()
-  const signOut = useSignOut()
-  const signedInFullName = useFullName()
   const isSignedIn = useIsSignedIn()
   
   const [username, setUsername] = useState('')
@@ -20,12 +20,8 @@ export default function Signin() {
   }
 
   if (isSignedIn) {
-    return (
-      <>
-        <p>Signed in as {signedInFullName}</p>
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
+    router.replace(`/`)
+    return (<></>)
   }
 
   return (
