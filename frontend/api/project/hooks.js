@@ -108,7 +108,7 @@ export function useApply(projectId) {
   const { user } = useContext(UserContext)
 
   const apply = async () => {
-    setResult(await ApplyRequest({ projectId, userId: user._id }, user.token))
+    setResult(await ApplyRequest({ projectId, userId: user._id }))
   }
 
   return { apply, result }

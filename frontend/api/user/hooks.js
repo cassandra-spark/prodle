@@ -62,7 +62,7 @@ export function useUpdateProfile() {
   const [result, setResult] = useState(null)
 
   const updateProfile =  async (data) => {
-    setResult(await UpdateProfileRequest(data, user.token))
+    setResult(await UpdateProfileRequest(user._id, data))
   }
 
   return { updateProfile, result }

@@ -39,7 +39,6 @@ export default function UserOverview() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
                 <UserTabs current="Overview" username={username} />
 
-
                 <div className="mt-10">
                   <dl className="sm:divide-y sm:divide-gray-200">
                     <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">

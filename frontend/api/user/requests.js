@@ -1,21 +1,21 @@
 import { fetchJson } from '../helpers'
 
 export function SignInRequest(data) {
-  return fetchJson('login', 'POST', data)
+  return fetchJson(`login`, 'POST', data)
 }
 
 export function SignUpRequest(data) {
-  return fetchJson('users', 'POST', data)
+  return fetchJson(`users`, 'POST', data)
 }
 
-export function UpdateProfileRequest(data) {
-  return fetchJson('users', 'PUT', data)
+export function UpdateProfileRequest({ userId }, data) {
+  return fetchJson(`users/${userId}`, 'PUT', data)
 }
 
-export function GetUserRequest(data) {
-  return fetchJson(`users/${data.userId}`, 'GET')
+export function GetUserRequest({ userId }) {
+  return fetchJson(`users/${userId}`, 'GET')
 }
 
-export function GetUserMembershipsRequest(data) {
-  return fetchJson(`memberships/users/${data.userId}`, 'GET')
+export function GetUserMembershipsRequest({ userId }) {
+  return fetchJson(`memberships/users/${userId}`, 'GET')
 }

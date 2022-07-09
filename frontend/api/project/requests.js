@@ -27,14 +27,14 @@ export function GetMembershipUserProjectRequest({ userId, projectId }) {
   return fetchJson(`memberships/user-project/${userId}/${projectId}`, 'GET')
 }
 
-export function ApplyRequest({ projectId, userId }, token) {
-  return fetchJson(`memberships/projects/${projectId}`, 'POST', { userId }, token)
+export function ApplyRequest({ projectId, userId }) {
+  return fetchJson(`memberships/projects/${projectId}`, 'POST', { userId })
 }
 
-export function AcceptApplicantRequest({ membershipId }, token) {
-  return fetchJson(`memberships/${membershipId}`, 'PUT', { status: "accepted" }, token)
+export function AcceptApplicantRequest({ membershipId }) {
+  return fetchJson(`memberships/${membershipId}`, 'PUT', { status: "accepted" })
 }
 
-export function RejectApplicantRequest({ membershipId }, token) {
-  return fetchJson(`memberships/${membershipId}`, 'PUT', { status: "rejected" }, token)
+export function RejectApplicantRequest({ membershipId }) {
+  return fetchJson(`memberships/${membershipId}`, 'PUT', { status: "rejected" })
 }
