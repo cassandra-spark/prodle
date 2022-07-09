@@ -15,7 +15,7 @@ export async function makeJsonResult(response) {
   } catch (e) {}
 
   return {
-    success: response.status >= 200 && response.status <= 299,
+    success: response.status >= 200 && response.status <= 399,
     status: response.status,
     data: jsonResponse,
   }
@@ -32,4 +32,8 @@ export async function fetchJson(path, method, data = null, token = null) {
   })
 
   return await makeJsonResult(response)
+}
+
+export function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 
 import UserContext from './context'
-import { SignInRequest, SignUpRequest, UpdateProfileRequest, GetUserRequest, GetUserProjectsRequest } from './requests'
+import { SignInRequest, SignUpRequest, UpdateProfileRequest, GetUserRequest, GetUserMembershipsRequest } from './requests'
 
 export function useSignIn() {
   const { setUser } = useContext(UserContext)
@@ -86,12 +86,12 @@ export function useUser(userId) {
   return { result, user: result?.data, refetch }
 }
 
-export function useUserProjects(username) {
+export function useUserMemberships(userId) {
   const [result, setResult] = useState(null)
 
   const refetch = async () => {
-    if (username) {
-      setResult(await GetUserProjectsRequest({ username }))
+    if (userId) {
+      setResult(await GetUserMembershipsRequest({ userId }))
     } else {
       setResult(null)
     }
@@ -99,7 +99,7 @@ export function useUserProjects(username) {
 
   useEffect(() => {
     refetch()
-  }, [username])
+  }, [userId])
 
   return { result, projects: result?.data, refetch }
 }

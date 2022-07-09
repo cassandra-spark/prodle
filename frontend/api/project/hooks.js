@@ -1,7 +1,7 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useMemo, useContext } from 'react'
 
 import UserContext from '../user/context'
-import { GetProjectRequest, GetProjectsRequest, GetMembershipUserProjectRequest, ApplyRequest, AcceptApplicantRequest, RejectApplicantRequest } from './requests'
+import { GetProjectRequest, GetProjectsRequest, CreateProjectRequest, GetProjectMembershipsRequest, GetMembershipUserProjectRequest, ApplyRequest, AcceptApplicantRequest, RejectApplicantRequest } from './requests'
 
 export function useProjects(initialFilters) {
   const [result, setResult] = useState(null)
@@ -35,25 +35,53 @@ export function useProject(projectId) {
   return { result, project: result?.data, refetch }
 }
 
-//export function useTagList() {
-  //const [result, setResult] = useState(null)
+export function useCreateProject() {
+  const [result, setResult] = useState(null)
+  const { user } = useContext(UserContext)
 
-  //const refetch = async () => {
-    //setResult(await GetTagListRequest())
-  //}
+  const createProject = async (project) => {
+    setResult(await CreateProjectRequest({...project, owner: user._id}))
+  }
 
-  //useEffect(() => {
-    //refetch();
-  //}, [])
+  return { createProject, result }
+}
 
-  //return { result, tags: result?.data, refetch }
-//}
+export function useMyMembershipStatus(projectId) {
+  const { memberships, refetch } = useProjectMemberships(projectId)
+  const { user } = useContext(UserContext)
 
-//export const APPLICATION_STATUS_UNKNOWN = "Unknown"
-//export const APPLICATION_STATUS_MEMBER = "Member"
-//export const APPLICATION_STATUS_APPLIED = "Applied"
-//export const APPLICATION_STATUS_REJECTED = "Rejected"
-//export const APPLICATION_STATUS_NOT_APPLIED = "Not applied"
+  const status = useMemo(() => {
+    if (!memberships || !user) {
+      return null
+    }
+
+    const membership = memberships.find((membership) => membership.user == user._id)
+
+    if (!membership) return "can apply"
+
+    return membership.status
+  }, [memberships, user])
+
+  return { status, refetch }
+}
+
+export function useProjectMemberships(projectId) {
+  const [result, setResult] = useState(null)
+
+  const refetch = async () => {
+    if (projectId) {
+      setResult(await GetProjectMembershipsRequest({ projectId }))
+    } else {
+      setResult(null)
+    }
+  }
+
+  useEffect(() => {
+    refetch()
+  }, [projectId])
+
+  return { result, memberships: result?.data, refetch }
+}
 
 export function useMembership(projectId) {
   const { user } = useContext(UserContext)
@@ -73,15 +101,6 @@ export function useMembership(projectId) {
   }, [projectId])
 
   return { result, project: result?.data, refetch }
-
-  //const username = user.username
-
-  //if (!user || !project) return APPLICATION_STATUS_UNKNOWN
-  //if (project.members.some((user) => user.username == username)) return APPLICATION_STATUS_MEMBER
-  //if (project.applicants.some((user) => user.username == username)) return APPLICATION_STATUS_APPLIED
-  //if (project.rejects.some((user) => user.username == username)) return APPLICATION_STATUS_REJECTED
-
-  //return APPLICATION_STATUS_NOT_APPLIED
 }
 
 export function useApply(projectId) {
@@ -89,30 +108,24 @@ export function useApply(projectId) {
   const { user } = useContext(UserContext)
 
   const apply = async () => {
-    setResult(await ApplyRequest({ projectId, user }, user.token))
+    setResult(await ApplyRequest({ projectId, userId: user._id }, user.token))
   }
 
   return { apply, result }
 }
 
-export function useAcceptApplicant(projectId) {
-  const [result, setResult] = useState(null)
-  const { user } = useContext(UserContext)
-
-  const accept = async (userId) => {
-    setResult(await AcceptApplicantRequest({ projectId, userId }, user.token))
+export function useAcceptApplicant() {
+  const accept = async (membershipId) => {
+    return await AcceptApplicantRequest({ membershipId })
   }
 
-  return { accept, result }
+  return { accept }
 }
 
-export function useRejectApplicant(projectId) {
-  const [result, setResult] = useState(null)
-  const { user } = useContext(UserContext)
-
-  const reject = async (userId) => {
-    setResult(await RejectApplicantRequest({ projectId, userId }, user.token))
+export function useRejectApplicant() {
+  const reject = async (membershipId) => {
+    return await RejectApplicantRequest({ membershipId })
   }
 
-  return { reject, result }
+  return { reject }
 }

@@ -3,16 +3,16 @@ import { useRouter } from 'next/router'
 import Dashboard from '../../../components/Dashboard'
 import UserTabs from '../../../components/UserTabs'
 import Loading from '../../../components/Loading'
-import ProjectList from '../../../components/ProjectList'
+import UserProjectsList from '../../../components/UserProjectsList'
 
-import { useUser, useUserProjects } from '../../../api/user/hooks'
+import { useUser, useUserMemberships } from '../../../api/user/hooks'
 
 export default function UserProjects() {
   const router = useRouter()
   const { username } = router.query
 
   const { result } = useUser(username)
-  const { result: projectsResult } = useUserProjects(username)
+  const { result: membershipsResult } = useUserMemberships(username)
 
   return (
     <Dashboard current="Profile">
@@ -37,8 +37,8 @@ export default function UserProjects() {
 
                 <div className="mt-12">
                   <Loading
-                    result={projectsResult}
-                    render={(projects) => <ProjectList projects={projects} />}
+                    result={membershipsResult}
+                    render={(memberships) => <UserProjectsList memberships={memberships} />}
                   />
                 </div>
               </div>

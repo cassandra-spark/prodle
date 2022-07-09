@@ -5,18 +5,17 @@ export function SignInRequest(data) {
 }
 
 export function SignUpRequest(data) {
-  return fetchJson('user', 'POST', data)
+  return fetchJson('users', 'POST', data)
 }
 
-export function UpdateProfileRequest(data, token) {
-  return fetchJson('user', 'PUT', data, token)
+export function UpdateProfileRequest(data) {
+  return fetchJson('users', 'PUT', data)
 }
 
-export function GetUserRequest(data, token) {
-  return fetchJson(`users/${data.userId}`, 'GET', null, token)
+export function GetUserRequest(data) {
+  return fetchJson(`users/${data.userId}`, 'GET')
 }
 
-export function GetUserProjectsRequest(data) {
-  //return GetProjectsMockData()
-  return fetchJson(`users/${data.username}/projects`, 'GET', data)
+export function GetUserMembershipsRequest(data) {
+  return fetchJson(`memberships/users/${data.userId}`, 'GET')
 }

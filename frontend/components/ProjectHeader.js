@@ -1,11 +1,14 @@
-import { useApplicationStatus, useApply, APPLICATION_STATUS_NOT_APPLIED } from '../api/project/hooks'
+import { useMyMembershipStatus, useApply } from '../api/project/hooks'
+
+import { capitalize } from '../api/helpers'
 
 export default function ProjectHeader({ project, refetch }) {
-  const applicationStatus = APPLICATION_STATUS_NOT_APPLIED; //useApplicationStatus(project)
-  const { apply } = useApply(project.id)
+  const { status, refetch: refetchMembership } = useMyMembershipStatus(project._id)
+  const { apply } = useApply(project._id)
 
   const doApply = async () => {
     await apply()
+    await refetchMembership()
     if (refetch) await refetch()
   }
 
@@ -25,7 +28,7 @@ export default function ProjectHeader({ project, refetch }) {
             >
               Edit
             </button>*/}
-            {applicationStatus == APPLICATION_STATUS_NOT_APPLIED ?
+            {status == "can apply" ?
               <button
                 type="button"
                 onClick={doApply}
@@ -33,14 +36,16 @@ export default function ProjectHeader({ project, refetch }) {
               >
                 Apply
               </button>
-              :
-              <button
-                type="button"
-                disabled="disabled"
-                className="disabled ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200"
-              >
-                {applicationStatus}
-              </button>
+              : (status ?
+                  <button
+                    type="button"
+                    disabled="disabled"
+                    className="disabled ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-700 bg-gray-200"
+                  >
+                    {capitalize(status)}
+                  </button>
+                  : <></>
+              )
             }
           </div>
         </div>

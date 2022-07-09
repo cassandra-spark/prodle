@@ -10,7 +10,7 @@ export default function ProjectDiscussion() {
   const router = useRouter()
   const { id } = router.query
 
-  const { result, refetch } = useProject(id)
+  const { result } = useProject(id)
 
   return (
     <Dashboard current="Projects">
@@ -18,7 +18,7 @@ export default function ProjectDiscussion() {
         result={result}
         render={(project) => (
           <>
-            <ProjectHeader project={project} refetch={refetch} />
+            <ProjectHeader project={project} />
             <main>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
                 <ProjectTabs current="Discussion" projectId={id} />

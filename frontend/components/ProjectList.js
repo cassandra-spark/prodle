@@ -1,4 +1,4 @@
-import { UserIcon, StarIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import { ChevronRightIcon } from '@heroicons/react/solid'
 import Link from 'next/link'
 
 export default function Projects({ projects }) {
@@ -17,17 +17,17 @@ export default function Projects({ projects }) {
                       </div>
                       <div className="mt-2 flex">
                         <div className="flex items-center text-sm text-gray-500">
-                          {project.skills.slice(1, -1)}
+                          {project.skills}
                         </div>
                       </div>
                     </div>
                     <div className="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
                       <div className="flex overflow-hidden -space-x-1 gap-4">
-                        <p className="flex items-center text-xl text-gray-500">
+                        {/*<p className="flex items-center text-xl text-gray-500">
                           <UserIcon className="flex-shrink-0 mr-1.5 h-8 w-8 text-gray-400" aria-hidden="true" />
-                          {/*project.members.length*/}
+                          project.members.length
                           22
-                        </p>
+                        </p>*/}
                       </div>
                     </div>
                   </div>
