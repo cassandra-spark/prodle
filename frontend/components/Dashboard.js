@@ -85,7 +85,7 @@ export default function Dashboard({ children, current }) {
                             <a className="block px-4 py-2 text-sm text-gray-700 font-bold">{user.fullName}</a>
                           </Menu.Item>
                           <Menu.Item>
-                            <a className="block px-4 py-2 text-sm text-gray-700">{user.email}</a>
+                            <a className="block px-4 py-2 text-sm text-gray-700 overflow-hidden text-ellipsis">{user.email}</a>
                           </Menu.Item>
                           <Menu.Item>
                             <a className="block px-4 py-2 text-sm text-gray-700" href="" onClick={() => signOut()}>Sign out</a>
