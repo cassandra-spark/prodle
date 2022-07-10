@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useContext } from 'react'
 
 import UserContext from '../user/context'
-import { GetProjectRequest, GetProjectsRequest, CreateProjectRequest, GetProjectMembershipsRequest, GetMembershipUserProjectRequest, ApplyRequest, AcceptApplicantRequest, RejectApplicantRequest } from './requests'
+import { GetProjectRequest, GetProjectsRequest, CreateProjectRequest, DeleteProjectRequest, GetProjectMembershipsRequest, GetMembershipUserProjectRequest, ApplyRequest, AcceptApplicantRequest, RejectApplicantRequest } from './requests'
 
 export function useProjects(initialFilters) {
   const [result, setResult] = useState(null)
@@ -44,6 +44,14 @@ export function useCreateProject() {
   }
 
   return { createProject, result }
+}
+
+export function useDeleteProject() {
+  const deleteProject = async (projectId) => {
+    return await DeleteProjectRequest({ projectId })
+  }
+
+  return { deleteProject }
 }
 
 export function useMyMembershipStatus(projectId) {

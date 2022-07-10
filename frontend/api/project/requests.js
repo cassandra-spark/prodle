@@ -15,6 +15,10 @@ export function CreateProjectRequest(project) {
   return fetchJson(`projects`, 'POST', project)
 }
 
+export function DeleteProjectRequest({ projectId }) {
+  return fetchJson(`projects/${projectId}`, 'DELETE')
+}
+
 export function GetProjectMembershipsRequest({ projectId }) {
   return fetchJson(`memberships/projects/${projectId}`, 'GET')
 }

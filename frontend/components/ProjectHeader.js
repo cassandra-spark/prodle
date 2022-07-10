@@ -1,15 +1,28 @@
 import { useMyMembershipStatus, useApply } from '../api/project/hooks'
+import { useRouter } from 'next/router'
 
 import { capitalize } from '../api/helpers'
+import { useCurrentUser } from '../api/user/hooks'
+import { useDeleteProject } from '../api/project/hooks'
 
 export default function ProjectHeader({ project, refetch }) {
+  const router = useRouter()
   const { status, refetch: refetchMembership } = useMyMembershipStatus(project._id)
   const { apply } = useApply(project._id)
+  const { deleteProject } = useDeleteProject()
+  const currentUser = useCurrentUser()
 
   const doApply = async () => {
     await apply()
     await refetchMembership()
     if (refetch) await refetch()
+  }
+
+  const doDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this project?')) {
+      await deleteProject(project._id)
+      router.replace(`/projects`)
+    }
   }
 
   return (
@@ -22,12 +35,16 @@ export default function ProjectHeader({ project, refetch }) {
             </h2>
           </div>
           <div className="mt-4 flex md:mt-0 md:ml-4">
-            {/*<button
-              type="button"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-            >
-              Edit
-            </button>*/}
+            {project.owner == currentUser._id
+              ? <button
+                type="button"
+                onClick={doDelete}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+              >
+                Delete
+              </button>
+              : <></>
+            }
             {status == "can apply" ?
               <button
                 type="button"
