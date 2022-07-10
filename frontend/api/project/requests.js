@@ -2,7 +2,7 @@ import { fetchJson } from '../helpers'
 
 export function GetProjectsRequest(filters) {
   if (filters.query) {
-    return fetchJson(`projects?query=${escapeHTMLElements(filters.query)}`, 'GET')
+    return fetchJson(`projects?query=${encodeURIComponent(filters.query)}`, 'GET')
   }
   return fetchJson(`projects`, 'GET')
 }
