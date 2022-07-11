@@ -1,5 +1,6 @@
 import { Fragment } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 
@@ -16,8 +17,16 @@ function classNames(...classes) {
 }
 
 export default function Dashboard({ children, current }) {
+  const router = useRouter()
   const signOut = useSignOut()
   const user = useCurrentUser()
+
+  const doSignOut = () => {
+    router.replace('/')
+    sleep(() => {
+      signOut()
+    }, 1000)
+  }
 
   return (
     <>
@@ -88,7 +97,7 @@ export default function Dashboard({ children, current }) {
                             <a className="block px-4 py-2 text-sm text-gray-700 overflow-hidden text-ellipsis">{user.email}</a>
                           </Menu.Item>
                           <Menu.Item>
-                            <a className="block px-4 py-2 text-sm text-gray-700" href="" onClick={() => signOut()}>Sign out</a>
+                            <a className="block px-4 py-2 text-sm text-gray-700" href="" onClick={() => doSignOut()}>Sign out</a>
                           </Menu.Item>
                         </Menu.Items>
                       </Transition>
