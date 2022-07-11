@@ -123,6 +123,7 @@ export default function NewProject() {
 
                 <option value="Project">Project</option>
                 <option value="Thesis">Thesis</option>
+                <option value="Personal">Personal</option>
                 <option value="Other">Other</option>
               </select>
             </div>
