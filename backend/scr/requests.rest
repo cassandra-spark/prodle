@@ -1,2 +1,2 @@
-GET http://localhost:3600/searchProjects?query=sensors&tags=[]
+GET http://localhost:3600/user_project/12ec9574328e4ae6bf835e20a3b3298a
 

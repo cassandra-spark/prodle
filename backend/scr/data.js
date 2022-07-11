@@ -43,7 +43,7 @@ export function searchProjects(query) {
 	if (!query) {
 		return listProjects()
 	}
-	return db.collection(projectCollection).find({ $or: [ {"title":{$regex: query, $options:"i"}}, {"description":{$regex: query, $options:"i"}} ]}).toArray()
+	return db.collection(projectCollection).find({ $or: [ {"title":{$regex: query, $options:"i"}}, {"description":{$regex: query, $options:"i"}}, {"skills":{$regex: query, $options:"i"}} ]}).toArray()
 }
 
 export async function createProject(project) {
