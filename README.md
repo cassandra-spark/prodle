@@ -19,10 +19,14 @@ Prodles help to connect you with other people who are interested in the same pro
 - Delete a project
 - Accept/decline a join request
 
+![image](screenshots/Projects.png)
+
 ### Discussions
 - Create a thread
 - Reply to a thread
 - Delete a thread
+
+![image](screenshots/Discussions.png)
 
 ### Users
 - Create user profile
@@ -30,10 +34,12 @@ Prodles help to connect you with other people who are interested in the same pro
 - Connecting user with each others
 - See user’s past works/projects
 
+![image](screenshots/Users.png)
+
 
 ## Project Architecture
 
-![Publication1](https://user-images.githubusercontent.com/56160802/158600383-05f26db1-bf20-44c7-a76b-2e18e429d41f.jpg)
+![Publication1](![image](screenshots/Project Architecture.png))
 
 ## Libraries / Algorithms Used
 
@@ -54,7 +60,7 @@ Prodles help to connect you with other people who are interested in the same pro
 
 ## Video Demonstration
 
-![Smatch Demo]
+
 
 
 ## How to run the project
