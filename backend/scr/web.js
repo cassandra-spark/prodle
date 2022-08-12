@@ -1,3 +1,4 @@
+import path from 'path'
 import express from 'express'
 import proxy from 'express-http-proxy'
 import cors from 'cors'
@@ -25,7 +26,7 @@ export function startWebServer() {
 
   //////// USERS ROUTES
 
-  app.route('/login').post(async(req, res) =>{
+  app.route('/api/login').post(async(req, res) =>{
     try {
       const user = await getUserByUsername(req.body.username)
       if (user) {
@@ -45,7 +46,7 @@ export function startWebServer() {
     }
   })
 
-  app.route('/users').post(async (req, res) => {
+  app.route('/api/users').post(async (req, res) => {
     try{
       const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)
       console.log(hashedPassword)
@@ -59,7 +60,7 @@ export function startWebServer() {
 
 
   //Update Profile information
-  app.route('/users/:id').put(async (req, res) => {
+  app.route('/api/users/:id').put(async (req, res) => {
     const id = req.params.id
     const doc = req.body
     const result = await updateUser(id, doc)
@@ -73,7 +74,7 @@ export function startWebServer() {
   })
 
   //Get user
-  app.route('/users/:id').get(async (req, res) => {
+  app.route('/api/users/:id').get(async (req, res) => {
     const id = req.params.id
     const result = await getUserById(id)
 
@@ -88,7 +89,7 @@ export function startWebServer() {
   //////// PROJECTS ROUTES
 
   //Create project
-  app.route('/projects').post(async (req, res) => {
+  app.route('/api/projects').post(async (req, res) => {
     const doc = req.body
     const result = await createProject(doc)
     res.status(201).json({ _id: result.insertedId })
@@ -96,7 +97,7 @@ export function startWebServer() {
 
 
   //Update project
-  app.route('/projects/:id').put(async (req, res) => {
+  app.route('/api/projects/:id').put(async (req, res) => {
     const id = req.params.id
     const doc = req.body
     const result = await updateProject(id, doc)
@@ -110,7 +111,7 @@ export function startWebServer() {
   })
 
   //Delete project
-  app.route('/projects/:id').delete(async (req, res) => {
+  app.route('/api/projects/:id').delete(async (req, res) => {
     const id = req.params.id
 
     await deleteProject(id)
@@ -119,14 +120,14 @@ export function startWebServer() {
   })
 
   //Search Project
-  app.route("/projects").get(async (req, res) =>{
+  app.route('/api/projects').get(async (req, res) =>{
     const query = req.query.query
     const projects = await searchProjects(query)
     res.json(projects)
   })
 
   //Get Project
-  app.route('/projects/:id').get(async (req, res) => {
+  app.route('/api/projects/:id').get(async (req, res) => {
     const id = req.params.id
     const result = await getProjectById(id)
 
@@ -141,21 +142,21 @@ export function startWebServer() {
   //////// MEMBERSHIPS ROUTES
 
   //my memberships
-  app.route('/memberships/users/:id').get(async (req, res) => {
+  app.route('/api/memberships/users/:id').get(async (req, res) => {
     const id = req.params.id
     const membership = await getMembershipsForUser(id)
     res.json(membership)
   })
 
   //Project Membership
-  app.route('/memberships/projects/:id').get(async (req, res) => {
+  app.route('/api/memberships/projects/:id').get(async (req, res) => {
     const id = req.params.id
     const membership = await getMembershipsForProject(id)
     res.json(membership)
   })
 
   //Project-User Membership
-  app.route('/memberships/user-project/:userId/:projectId').get(async (req, res) => {
+  app.route('/api/memberships/user-project/:userId/:projectId').get(async (req, res) => {
     const userId = req.params.userId
     const projectId = req.params.projectId
     const membership = await getMembershipsForUserAndProject(userId, projectId)
@@ -163,7 +164,7 @@ export function startWebServer() {
   })
 
   //apply for project
-  app.route('/memberships/projects/:id').post(async (req, res) => {
+  app.route('/api/memberships/projects/:id').post(async (req, res) => {
     const id = req.params.id
     const userId = req.body.userId
     const result = await applyToProject(id, userId)
@@ -171,7 +172,7 @@ export function startWebServer() {
   })
 
   //accept or deny application (we just change the status in the frontend)
-  app.route('/memberships/:id').put(async (req, res) => {
+  app.route('/api/memberships/:id').put(async (req, res) => {
     const id = req.params.id
     const status = req.body.status
     const result = await updateMembershipStatus(id, status)
@@ -187,7 +188,7 @@ export function startWebServer() {
   ///////// COMMENTS ROUTES
 
   //create new comment
-  app.route('/discussions/projects/:id').post(async (req, res) => {
+  app.route('/api/discussions/projects/:id').post(async (req, res) => {
     const id = req.params.id
     const doc = req.body
     const result = await createCommentForProject(id, doc)
@@ -195,14 +196,14 @@ export function startWebServer() {
   })
 
   //Read all comments
-  app.route('/discussions/projects/:id').get(async (req, res) => {
+  app.route('/api/discussions/projects/:id').get(async (req, res) => {
     const id = req.params.id
     const comment = await getCommentsForProject(id)
     res.json(comment)
   })
 
   //Delete comment
-  app.route('/discussions/:id').delete(async (req, res) => {
+  app.route('/api/discussions/:id').delete(async (req, res) => {
     const id = req.params.id
     await deleteComment(id)
     res.json({})
@@ -214,6 +215,9 @@ export function startWebServer() {
   const env = process.env.NODE_ENV || 'development';
   if (env == 'production') {
     app.use('/', express.static('public'));
+    app.get('*', (req, res) => {
+      res.redirect('/');
+    });
   } else {
     app.use('/', proxy('localhost:3000'));
   }

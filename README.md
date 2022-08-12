@@ -57,6 +57,7 @@ Prodles help to connect you with other people who are interested in the same pro
 | Technology | Function |
 | ------ | ------ |
 | React | Used to make a single page application |
+| Next.js | Provides easy routing and other convenience methods to React |
 | Tailwind CSS | CSS framework to design the user interface |
 
 ## Video Demonstration
@@ -106,7 +107,7 @@ npm start
 
 - Go to the frontend directory
 - Build the frontend
-- Copy all files from “frontend/dist/my-angular-app” into “backend/public”
+- Copy all files from “frontend/out” into “backend/public”
 
 ```
 cd frontend
@@ -127,7 +128,7 @@ npm run-script build
 ## Deployment
 
 - Create a new app in Heroku
-- Open a terminal and go to the directory of our project
+- Open a terminal and go to the backend directory of our project
 - Create a new Git repository in the folder 
 - Add our Heroku project as a git remote
 
@@ -137,6 +138,7 @@ heroku git:remote -a <app-name>
 
 ```
 
+- Add our code and commit
 - Push the new repository into Heroku
 - Open  https://app-name.herokuapp.com
 
