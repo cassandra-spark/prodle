@@ -1,7 +1,7 @@
 # Prodle
 Get those credits, get that degree
 
-![image](https://user-images.githubusercontent.com/56160802/158058117-826d9b1f-3e1f-48db-b1be-65582610b507.png)
+![image](screenshots/Prodle_Logo_Casandra_Sparks.png)
 
 ## Description
 
