@@ -39,7 +39,7 @@ Prodles help to connect you with other people who are interested in the same pro
 
 ## Project Architecture
 
-![Publication1](![image](screenshots/Project_arc.png))
+![Publication1](![image](screenshots/Project_arc.png)
 
 ## Libraries / Algorithms Used
 
