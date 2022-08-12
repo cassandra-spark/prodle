@@ -69,10 +69,10 @@ You need to have Node.js installed
 
 ### Running the Database
 
-Step 1: Open your terminal or command prompt
-Step 2: Change to the ‘/backend’
-Step 3: Type ‘npm install’
-Step 4: Type ‘npm run-script dev’
+- Open your terminal or command prompt
+- Change to the ‘/backend’
+- Type ‘npm install’
+- Type ‘npm run-script dev’
 
 ```
 cd backend
@@ -87,12 +87,11 @@ Connected to database
 ```
 
 ### Running the Frontend
-
-Step 1: Open your terminal or command prompt
-Step 2: Change to the ‘/frontend’
-Step 3: Type ‘npm install’
-Step 4: Type ‘npm start’
-Step 5: Open your browser and go to http://localhost:3600/
+- Open your terminal or command prompt
+- Change to the ‘/frontend’
+- Type ‘npm install’
+- Type ‘npm start’
+- Open your browser and go to http://localhost:3600/
 
 ```
 cd frontend
@@ -104,9 +103,9 @@ npm start
 
 ### Building the Frontend
 
-Step 1: Go to the frontend directory
-Step 2: Build the frontend
-Step 3: Copy all files from “frontend/dist/my-angular-app” into “backend/public”
+- Go to the frontend directory
+- Build the frontend
+- Copy all files from “frontend/dist/my-angular-app” into “backend/public”
 
 ```
 cd frontend
@@ -115,8 +114,8 @@ npm run-script build
 
 ### Building the Backend
 
-Step 1: Go to the backend directory
-Step 2: Build the backend
+- Go to the backend directory
+- Build the backend
 
 
 ```
@@ -126,10 +125,10 @@ npm run-script build
 
 ## Deployment
 
-Step 1: Create a new app in Heroku
-Step 2: Open a terminal and go to the directory of our project
-Step 3: Create a new Git repository in the folder 
-Step 4: Add our Heroku project as a git remote
+- Create a new app in Heroku
+- Open a terminal and go to the directory of our project
+- Create a new Git repository in the folder 
+- Add our Heroku project as a git remote
 
 ```
 git init
@@ -137,8 +136,8 @@ heroku git:remote -a <app-name>
 
 ```
 
-Step 5: Push the new repository into Heroku
-Step 6: Open  https://<app-name>.herokuapp.com
+- Push the new repository into Heroku
+- Open  https://<app-name>.herokuapp.com
 
 ```
 git add . 
