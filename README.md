@@ -138,7 +138,7 @@ heroku git:remote -a <app-name>
 ```
 
 - Push the new repository into Heroku
-- Open  https://<app-name>.herokuapp.com
+- Open  https://app-name.herokuapp.com
 
 ```
 git add . 
